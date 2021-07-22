@@ -113,3 +113,22 @@ cargo add actix-redis time
 ```shell
 cargo add actix-cors
 ```
+
+## Other Libraries
+
+```shell
+cargo add derive_more serde serde_json actix-session
+```
+
+`Cargo.toml`の編集が必要
+
+```shell
+cargo add uuid validator chrono
+```
+
+```toml
+uuid = { version = "0.8.2", features = ["serde", "v4"] }
+validator = { version = "0.14.0", features = ["derive"] }
+chrono = { version = "0.4.19", features = ["serde"] }
+```
+
