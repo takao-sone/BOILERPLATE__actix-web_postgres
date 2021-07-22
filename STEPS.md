@@ -108,4 +108,8 @@ mod db;
 cargo add actix-redis time
 ```
 
-## 
+## Cors
+
+```shell
+cargo add actix-cors
+```

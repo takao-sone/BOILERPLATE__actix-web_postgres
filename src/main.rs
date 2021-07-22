@@ -2,7 +2,9 @@ extern crate dotenv;
 
 use std::env;
 
+use actix_cors::Cors;
 use actix_redis::{RedisSession, SameSite};
+use actix_web::http::header;
 use actix_web::{middleware, App, HttpServer};
 use boilerplate::api;
 use boilerplate::db::connection::new_pool;
@@ -36,6 +38,9 @@ async fn main() -> std::io::Result<()> {
     };
     let private_key = env::var("REDIS_PRIVATE_KEY").expect("Failed to get Redis key.");
 
+    // Cors
+    let allowed_origin = env::var("FRONTEND_ORIGIN").expect("Failed to get frontend origin.");
+
     // Bound address
     let bound_address = if run_environment == "test" {
         env::var("TEST_BOUND_ADDRESS").expect("Failed to get test bound address.")
@@ -59,15 +64,15 @@ async fn main() -> std::io::Result<()> {
                     // .cookie_secure(true),
                     .cookie_secure(false),
             )
-            // .wrap(
-            //     Cors::default()
-            //         .allowed_origin(&allowed_origin)
-            //         .allowed_methods(vec!["GET", "POST", "DELETE"])
-            //         .allowed_headers(vec![header::AUTHORIZATION, header::ACCEPT])
-            //         .allowed_header(header::CONTENT_TYPE)
-            //         .supports_credentials()
-            //         .max_age(3600),
-            // )
+            .wrap(
+                Cors::default()
+                    .allowed_origin(&allowed_origin)
+                    .allowed_methods(vec!["GET", "POST", "DELETE"])
+                    .allowed_headers(vec![header::AUTHORIZATION, header::ACCEPT])
+                    .allowed_header(header::CONTENT_TYPE)
+                    .supports_credentials()
+                    .max_age(3600),
+            )
             .wrap(middleware::Logger::default())
             .configure(api::api_factory)
     })
