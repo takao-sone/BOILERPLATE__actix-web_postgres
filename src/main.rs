@@ -9,7 +9,11 @@ use env_logger;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    std::env::set_var("RUST_LOG", "actix_web=error,warn,info,debug");
+    // std::env::set_var("RUST_LOG", "actix_web=error,warn,info,debug");
+    // std::env::set_var("RUST_LOG", "actix_server=info,actix_web=info");
+    // std::env::set_var("RUST_LOG", "actix_web=debug");
+    std::env::set_var("RUST_LOG", "info");
+    std::env::set_var("RUST_BACKTRACE", "1");
     env_logger::init();
     dotenv::dotenv().ok();
 
