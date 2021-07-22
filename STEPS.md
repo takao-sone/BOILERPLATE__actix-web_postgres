@@ -120,7 +120,13 @@ cargo add actix-cors
 cargo add derive_more serde serde_json actix-session
 ```
 
-`Cargo.toml`の編集が必要
+```rust
+// lib.rs
+#[macro_use]
+extern crate serde_json;
+```
+
+`Cargo.toml`等の編集が必要
 
 ```shell
 cargo add uuid validator chrono
