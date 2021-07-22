@@ -11,7 +11,7 @@ git clone {this-repository}
 Install dependencies
 
 ```shell
-cargo install
+cargo install --path .
 ```
 
 Run application
