@@ -13,7 +13,7 @@ services:
   #    ports:
   #      - 8080:8080
   #    tty: true
-  postgres-boilerplate:
+  boilerplate-postgres:
     container_name: 'boilerplate-postgres'
     image: 'postgres:latest'
     restart: always
@@ -28,7 +28,7 @@ services:
       - "POSTGRES_USER=${POSTGRES_USER}"
       - "POSTGRES_DB=${POSTGRES_DB}"
       - "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}"
-  redis-boilerplate:
+  boilerplate-redis:
     container_name: 'boilerplate-redis'
     image: 'redis:latest'
     expose:
@@ -37,6 +37,24 @@ services:
       - '6379:6379'
     volumes:
       - boilerplate-redis-volume:/data
+  boilerplate-swagger-editor:
+    container_name: 'boilerplate-swagger-editor'
+    image: swaggerapi/swagger-editor
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./swagger:/swagger
+    environment:
+      SWAGGER_FILE: /swagger/swagger.yaml
+  boilerplate-swagger-ui:
+    container_name: 'boilerplate-swagger-ui'
+    image: swaggerapi/swagger-ui
+    ports:
+      - "8082:8080"
+    volumes:
+      - ./swagger/swagger.yaml:/swagger.yaml
+    environment:
+      SWAGGER_JSON: /swagger.yaml
 volumes:
   boilerplate-postgres-volume:
   boilerplate-redis-volume:
