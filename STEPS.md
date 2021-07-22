@@ -102,4 +102,10 @@ mod db;
 ```
 
 
-## hoge
+## Redis
+
+```shell
+cargo add actix-redis time
+```
+
+## 

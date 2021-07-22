@@ -11,9 +11,9 @@ pub fn new_pool(run_environment: &str) -> Result<PgPool, PoolError> {
     dotenv().ok();
 
     let database_url = if run_environment == "test" {
-        env::var("TEST_DATABASE_URL").expect("Failed to get test_db address.")
+        env::var("TEST_DATABASE_URL").expect("Failed to get test db address.")
     } else {
-        env::var("DEV_DATABASE_URL").expect("Failed to get dev_db address.")
+        env::var("DATABASE_URL").expect("Failed to get dev db address.")
     };
 
     let manager = ConnectionManager::<PgConnection>::new(database_url);
