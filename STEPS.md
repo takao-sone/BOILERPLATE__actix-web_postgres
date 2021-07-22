@@ -24,31 +24,57 @@ FROM rust:1.53.0
 WORKDIR /app
 
 # 0
-RUN apt-get update -yqq && apt-get install -yqq cmake g++ && apt install -y tzdata
-RUN cargo install diesel_cli --no-default-features --features postgres
+RUN apt-get update -yqq \
+    && apt-get install -yqq cmake g++ \
+    && apt install -y tzdata
+ENV TZ=Asia/Tokyo
 
 # 1
-COPY ./Cargo.toml ./Cargo.toml
-RUN mkdir src
-RUN echo "fn main() {}" > src/main.rs
-RUN cargo fetch
-RUN cargo install --path .
-RUN rm -f target/debug/deps/BOILERPLATE__actix-web_postgres*
+#RUN cargo install diesel_cli --no-default-features --features postgres
 
 # 2
-COPY ./migrations ./migrations
-COPY ./src ./src
-COPY ./.env ./.env
-COPY ./diesel.toml ./diesel.toml
+COPY ./Cargo.toml ./Cargo.toml
 
 # 3
+#COPY ./migrations ./migrations
+COPY ./src ./src
+COPY ./.env ./.env
+#COPY ./diesel.toml ./diesel.toml
+
+# 4
 RUN cargo build --release
 
 EXPOSE 8080
 
-# 4
-RUN apt-get install -y tzdata
-ENV TZ=Asia/Tokyo
-
 CMD ["cargo", "run", "--release"]
+```
+
+`docker-compose.dev.yml`を作成
+
+```dockerfile
+version: '3'
+
+services:
+
+  # TODO: CLionのdebug機能を使いたい場合はコメントアウト
+  boiler:
+    container_name: boilerplate_actix-web_postgres
+    build:
+      context: .
+      dockerfile: "dev.dockerfile"
+    restart: always
+    tty: true
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
+```
+
+docker-composeファイルの実行方法
+```shell
+# run
+docker compose -f docker-compose.dev.yml -p dev up  
+
+# down
+docker compose -f docker-compose.dev.yml -p dev down  
 ```

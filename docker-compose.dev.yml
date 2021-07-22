@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+
+  # TODO: CLionのdebug機能を使いたい場合はコメントアウト
+  boiler:
+    container_name: boilerplate_actix-web_postgres
+    build:
+      context: .
+      dockerfile: "dev.dockerfile"
+    restart: always
+    ports:
+      - 8080:8080
+    expose:
+      - 8080
+    tty: true
