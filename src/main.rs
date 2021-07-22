@@ -3,21 +3,26 @@ extern crate dotenv;
 use std::env;
 
 use actix_web::{middleware, App, HttpServer};
+use boilerplate::api;
+use boilerplate::db::connection::new_pool;
 use env_logger;
-
-mod api;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    std::env::set_var("RUST_LOG", "actix_web=error,warn,info,debug");
     env_logger::init();
     dotenv::dotenv().ok();
 
+    // Command line args (for Test)
     let command_line_args: Vec<String> = env::args().collect();
     let run_environment = if command_line_args.len() > 1 {
         &command_line_args[1]
     } else {
         "dev"
     };
+
+    // DB & Connection Pooling
+    let pool = new_pool(run_environment).expect("Failed to create pool.");
 
     // Bound address
     let bound_address = if run_environment == "test" {
@@ -29,7 +34,7 @@ async fn main() -> std::io::Result<()> {
     // Main Server
     HttpServer::new(move || {
         App::new()
-            // .data(pool.clone())
+            .data(pool.clone())
             // .wrap(
             //     Cors::default()
             //         .allowed_origin(&allowed_origin)

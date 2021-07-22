@@ -78,3 +78,28 @@ docker compose -f docker-compose.dev.yml -p dev up
 # down
 docker compose -f docker-compose.dev.yml -p dev down  
 ```
+
+## Diesel
+
+`deisel setup`以降は各アプリケーションで実行すること。
+
+```toml
+# Cargo.toml
+diesel = { version = "1.4.7", features = ["postgres", "r2d2", "serde_json", "chrono", "uuidv07"] }
+```
+
+`src/lib.rs`を作成
+
+```rust
+// QueryIdなどのmacroを使うために必要
+#[macro_use]
+extern crate diesel;
+
+extern crate dotenv;
+
+mod api;
+mod db;
+```
+
+
+## hoge

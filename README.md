@@ -25,6 +25,9 @@ cargo run --release
 
 # Auto Reloading
 cargo watch -x 'run --bin boilerplate_actix-web_postgres'
+
+# test: Test transaction to DB
+cargo run -- test
 ```
 
 Run docker
@@ -35,4 +38,12 @@ docker compose -f docker-compose.dev.yml -p dev up
 docker compose -f docker-compose.dev.yml -p dev down
 
 # test environment
+```
+
+Others
+
+```shell
+# format
+cargo fmt
+
 ```
