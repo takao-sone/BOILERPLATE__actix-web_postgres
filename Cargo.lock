@@ -358,7 +358,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "boilerplate_actix-web_postgres"
+name = "boilerplate"
 version = "0.1.0"
 dependencies = [
  "actix-web",

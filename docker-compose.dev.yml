@@ -1,16 +1,42 @@
 version: '3'
 
 services:
-
   # TODO: CLionのdebug機能を使いたい場合はコメントアウト
-  boiler:
-    container_name: boilerplate_actix-web_postgres
-    build:
-      context: .
-      dockerfile: "dev.dockerfile"
+  #  app-boilerplate:
+  #    container_name: boilerplate
+  #    build:
+  #      context: .
+  #      dockerfile: "dev.dockerfile"
+  #    restart: always
+  #    expose:
+  #      - 8080
+  #    ports:
+  #      - 8080:8080
+  #    tty: true
+  postgres-boilerplate:
+    container_name: 'boilerplate-postgres'
+    image: 'postgres:latest'
     restart: always
-    ports:
-      - 8080:8080
+    command: postgres -c log_destination=stderr -c log_statement=all
     expose:
-      - 8080
-    tty: true
+      - 5432
+    ports:
+      - '5432:5432'
+    volumes:
+      - boilerplate-postgres-volume:/var/lib/postgresql/data
+    environment:
+      - "POSTGRES_USER=${DEV_POSTGRES_USER}"
+      - "POSTGRES_DB=${DEV_POSTGRES_DB}"
+      - "POSTGRES_PASSWORD=${DEV_POSTGRES_PASSWORD}"
+  redis-boilerplate:
+    container_name: 'boilerplate-redis'
+    image: 'redis:latest'
+    expose:
+      - 6379
+    ports:
+      - '6379:6379'
+    volumes:
+      - boilerplate-redis-volume:/data
+volumes:
+  boilerplate-postgres-volume:
+  boilerplate-redis-volume:

@@ -31,8 +31,8 @@ Run docker
 
 ```shell
 # dev environment
-docker compose -f docker-compose.dev.yml -p dev up  
-docker compose -f docker-compose.dev.yml -p dev down  
+docker compose -f docker-compose.dev.yml -p dev up
+docker compose -f docker-compose.dev.yml -p dev down
 
 # test environment
 ```
