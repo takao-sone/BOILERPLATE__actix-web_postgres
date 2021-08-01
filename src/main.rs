@@ -7,6 +7,7 @@ use actix_redis::{RedisSession, SameSite};
 use actix_web::http::header;
 use actix_web::{middleware, App, HttpServer};
 use boilerplate::api;
+use boilerplate::app_middleware;
 use boilerplate::db::connection::new_pool;
 use env_logger;
 
@@ -14,7 +15,8 @@ use env_logger;
 async fn main() -> std::io::Result<()> {
     // std::env::set_var("RUST_LOG", "actix_server=info,actix_web=info");
     // std::env::set_var("RUST_LOG", "actix_web=debug");
-    std::env::set_var("RUST_LOG", "info");
+    // std::env::set_var("RUST_LOG", "info");
+    std::env::set_var("RUST_LOG", "debug");
     std::env::set_var("RUST_BACKTRACE", "1");
     env_logger::init();
     dotenv::dotenv().ok();
@@ -40,6 +42,12 @@ async fn main() -> std::io::Result<()> {
 
     // Cors
     let allowed_origin = env::var("FRONTEND_ORIGIN").expect("Failed to get frontend origin.");
+
+    // Csrf
+    let valid_referer_value =
+        env::var("VALID_REFERER_VALUE").expect("Failed to get valid referer value.");
+    let valid_origin_value =
+        env::var("VALID_ORIGIN_VALUE").expect("Failed to get valid origin value.");
 
     // Bound address
     let bound_address = if run_environment == "test" {
@@ -73,6 +81,10 @@ async fn main() -> std::io::Result<()> {
                     .supports_credentials()
                     .max_age(3600),
             )
+            .wrap(app_middleware::csrf::CSRF::new(
+                valid_origin_value.clone(),
+                valid_referer_value.clone(),
+            ))
             .wrap(middleware::Logger::default())
             .configure(api::api_factory)
     })

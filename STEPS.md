@@ -114,6 +114,30 @@ cargo add actix-redis time
 cargo add actix-cors
 ```
 
+## CSRF
+
+```shell
+cargo add actix-service futures
+```
+
+```toml
+# Cargo.toml
+
+# here are other crates....
+actix-service = "1"
+futures = "0.3.15"
+```
+
+`app_middleware/csrf.rs`のコード追加
+
+```rust
+// main.rs
+
+// ...
+.wrap(app_middleware::csrf::CSRF::new(valid_referer_value.clone()))
+```
+
+
 ## Other Libraries
 
 ```shell
@@ -137,4 +161,3 @@ uuid = { version = "0.8.2", features = ["serde", "v4"] }
 validator = { version = "0.14.0", features = ["derive"] }
 chrono = { version = "0.4.19", features = ["serde"] }
 ```
-
