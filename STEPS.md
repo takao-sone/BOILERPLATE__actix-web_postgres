@@ -71,6 +71,7 @@ services:
 ```
 
 docker-composeファイルの実行方法
+
 ```shell
 # run
 docker compose -f docker-compose.dev.yml -p dev up  
@@ -79,7 +80,7 @@ docker compose -f docker-compose.dev.yml -p dev up
 docker compose -f docker-compose.dev.yml -p dev down  
 ```
 
-## Diesel
+## diesel
 
 `deisel setup`以降は各アプリケーションで実行すること。
 
@@ -101,6 +102,24 @@ mod api;
 mod db;
 ```
 
+### シェルでの操作
+
+```shell
+# Setup diesel
+diesel setup
+
+# Create migration
+diesel migration generate {migration_name}
+
+# Run migration
+diesel migration run
+
+# Check down.sql
+diesel migration redo
+
+# Revert
+diesel migration revert
+```
 
 ## Redis
 
@@ -136,7 +155,6 @@ futures = "0.3.15"
 // ...
 .wrap(app_middleware::csrf::CSRF::new(valid_referer_value.clone()))
 ```
-
 
 ## Other Libraries
 
