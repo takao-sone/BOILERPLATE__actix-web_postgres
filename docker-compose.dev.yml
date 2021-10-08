@@ -1,60 +1,71 @@
-version: '3'
+version: '3.9'
 
 services:
   # TODO: CLionのdebug機能を使いたい場合はコメントアウト
-  #  app-boilerplate:
-  #    container_name: boilerplate
+  #  d-boilerplate-app:
+  #    container_name: d-boilerplate
   #    build:
   #      context: .
-  #      dockerfile: "dev.dockerfile"
-  #    restart: always
-  #    expose:
-  #      - 8080
+  #      dockerfile: 'dev.dockerfile'
   #    ports:
   #      - 8080:8080
   #    tty: true
-  boilerplate-postgres:
-    container_name: 'boilerplate-postgres'
-    image: 'postgres:latest'
-    restart: always
+  #    networks:
+  #      - d-boilerplate-network
+  d-boilerplate-postgres:
+    container_name: d-boilerplate-postgres
+    image: postgres:latest
     command: postgres -c log_destination=stderr -c log_statement=all
-    expose:
-      - 5432
     ports:
       - '5432:5432'
     volumes:
-      - boilerplate-postgres-volume:/var/lib/postgresql/data
+      - d-boilerplate-postgres-volume:/var/lib/postgresql/data
     environment:
       - "POSTGRES_USER=${POSTGRES_USER}"
       - "POSTGRES_DB=${POSTGRES_DB}"
       - "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}"
-  boilerplate-redis:
-    container_name: 'boilerplate-redis'
-    image: 'redis:latest'
-    expose:
-      - 6379
+    networks:
+      - d-boilerplate-network
+  d-boilerplate-redis:
+    container_name: 'd-boilerplate-redis'
+    image: redis:latest
     ports:
       - '6379:6379'
     volumes:
-      - boilerplate-redis-volume:/data
-  boilerplate-swagger-editor:
-    container_name: 'boilerplate-swagger-editor'
+      - d-boilerplate-redis-volume:/data
+    networks:
+      - d-boilerplate-network
+  d-boilerplate-swagger-editor:
+    container_name: 'd-boilerplate-swagger-editor'
     image: swaggerapi/swagger-editor
     ports:
-      - "8081:8080"
+      - '8081:8080'
     volumes:
       - ./swagger:/swagger
     environment:
       SWAGGER_FILE: /swagger/swagger.yaml
-  boilerplate-swagger-ui:
-    container_name: 'boilerplate-swagger-ui'
+    networks:
+      - d-boilerplate-swagger-network
+  d-boilerplate-swagger-ui:
+    container_name: 'd-boilerplate-swagger-ui'
     image: swaggerapi/swagger-ui
     ports:
-      - "8082:8080"
+      - '8082:8080'
     volumes:
       - ./swagger/swagger.yaml:/swagger.yaml
     environment:
       SWAGGER_JSON: /swagger.yaml
+    networks:
+      - d-boilerplate-swagger-network
+
 volumes:
-  boilerplate-postgres-volume:
-  boilerplate-redis-volume:
+  d-boilerplate-postgres-volume:
+  d-boilerplate-redis-volume:
+
+networks:
+  d-boilerplate-network:
+    name: d-boilerplate-network
+    driver: bridge
+  d-boilerplate-swagger-network:
+    name: d-boilerplate-swagger-network
+    driver: bridge
