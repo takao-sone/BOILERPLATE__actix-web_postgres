@@ -1,10 +1,9 @@
-version: '3'
+version: '3.9'
 
 services:
-  t-postgres-boilerplate:
-    container_name: 't-workplus-postgres'
-    image: 'postgres:13.2'
-    restart: always
+  t-boilerplate-postgres:
+    container_name: t-boilerplate-postgres
+    image: postgres:latest
     command: postgres -c log_destination=stderr -c log_statement=all
     ports:
       - '15432:5432'
@@ -14,13 +13,23 @@ services:
       - "POSTGRES_USER=${TEST_POSTGRES_USER}"
       - "POSTGRES_DB=${TEST_POSTGRES_DB}"
       - "POSTGRES_PASSWORD=${TEST_POSTGRES_PASSWORD}"
-  t-redis-boilerplate:
-    container_name: 't-workplus-redis'
-    image: 'redis:latest'
+    networks:
+      - t-boilerplate-network
+  t-boilerplate-redis:
+    container_name: t-boilerplate-redis
+    image: redis:latest
     ports:
       - '16379:6379'
     volumes:
       - t-boilerplate-redis-volume:/data
+    networks:
+      - t-boilerplate-network
+
 volumes:
   t-boilerplate-postgres-volume:
   t-boilerplate-redis-volume:
+
+networks:
+  t-boilerplate-network:
+    name: t-boilerplate-network
+    driver: bridge
