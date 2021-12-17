@@ -40,9 +40,7 @@ docker compose -f docker-compose.dev.yml -p dev down
 # test environment
 ```
 
-Others
+## Warning
 
-```shell
-# format
-cargo fmt
-```
+Do **NOT** change .env's OUTPUT values.  
+Change INPUT values **ONLY** .
