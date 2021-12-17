@@ -7,5 +7,6 @@ extern crate dotenv;
 
 pub mod api;
 pub mod app_middleware;
+pub mod config;
 pub mod db;
 mod error;
