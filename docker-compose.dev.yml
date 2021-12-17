@@ -8,7 +8,7 @@ services:
   #      context: .
   #      dockerfile: 'dev.dockerfile'
   #    ports:
-  #      - 8080:8080
+  #      - ${DC_APP_BOUND_PORT}:8080
   #    tty: true
   #    networks:
   #      - d-boilerplate-network
@@ -17,20 +17,20 @@ services:
     image: postgres:latest
     command: postgres -c log_destination=stderr -c log_statement=all
     ports:
-      - '5432:5432'
+      - '${DC_DB_PORT}:5432'
     volumes:
       - d-boilerplate-postgres-volume:/var/lib/postgresql/data
     environment:
-      - "POSTGRES_USER=${POSTGRES_USER}"
-      - "POSTGRES_DB=${POSTGRES_DB}"
-      - "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}"
+      - "POSTGRES_DB=${DC_DB_NAME}"
+      - "POSTGRES_USER=${DC_DB_USERNAME}"
+      - "POSTGRES_PASSWORD=${DC_DB_PASSWORD}"
     networks:
       - d-boilerplate-network
   d-boilerplate-redis:
     container_name: 'd-boilerplate-redis'
     image: redis:latest
     ports:
-      - '6379:6379'
+      - '${DC_REDIS_PORT}:6379'
     volumes:
       - d-boilerplate-redis-volume:/data
     networks:
