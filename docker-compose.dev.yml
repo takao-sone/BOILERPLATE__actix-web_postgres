@@ -4,14 +4,25 @@ services:
   # TODO: CLionのdebug機能を使いたい場合はコメントアウト
   #  d-boilerplate-app:
   #    container_name: d-boilerplate
-  #    build:
-  #      context: .
-  #      dockerfile: 'dev.dockerfile'
+  #    image: boilerplate
+  #    #    build:
+  #    #      context: .
+  #    #      dockerfile: 'dev.dockerfile'
   #    ports:
   #      - ${DC_APP_BOUND_PORT}:8080
   #    tty: true
   #    networks:
   #      - d-boilerplate-network
+  #    environment:
+  #      - "DB_URL=${DB_URL}"
+  #      - "REDIS_ADDRESS=${REDIS_ADDRESS}"
+  #      - "REDIS_COOKIE_SESSION_PRIVATE_KEY=${REDIS_COOKIE_SESSION_PRIVATE_KEY}"
+  #      - "FRONTEND_ORIGIN=${FRONTEND_ORIGIN}"
+  #      - "VALID_REFERER_VALUE=${VALID_REFERER_VALUE}"
+  #      - "VALID_ORIGIN_VALUE=${VALID_ORIGIN_VALUE}"
+  #      - "APP_BOUND_ADDRESS=${APP_BOUND_ADDRESS}"
+  #      - "RUST_LOG=${RUST_LOG}"
+  #      - "RUST_BACKTRACE=${RUST_BACKTRACE}"
   d-boilerplate-postgres:
     container_name: d-boilerplate-postgres
     image: postgres:latest

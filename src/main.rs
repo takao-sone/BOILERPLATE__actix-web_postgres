@@ -8,7 +8,8 @@ use boilerplate::api;
 use boilerplate::config::{
     create_cors_config, create_csrf_config, create_redis_session, get_app_bound_address,
     get_database_url, get_frontend_origin, get_is_test_environment, get_redis_address,
-    get_redis_cookie_session_private_key, get_valid_origin_value, get_valid_referer_value,
+    get_redis_cookie_session_private_key, get_rust_backtrace, get_rust_log, get_valid_origin_value,
+    get_valid_referer_value, set_rust_logs,
 };
 use boilerplate::db::connection::new_pool;
 
@@ -26,6 +27,9 @@ async fn main() -> std::io::Result<()> {
     let csrf_valid_referer_value = get_valid_referer_value();
     let csrf_valid_origin_value = get_valid_origin_value();
     let app_bound_address = get_app_bound_address(is_test_environment);
+    let rust_log = get_rust_log();
+    let rust_backtrace = get_rust_backtrace();
+    set_rust_logs(rust_log, rust_backtrace);
 
     // DB & Connection Pooling
     let pool = new_pool(database_url, is_test_environment).expect("Failed to create pool.");

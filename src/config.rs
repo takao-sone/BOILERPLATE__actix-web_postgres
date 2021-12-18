@@ -54,6 +54,19 @@ pub fn get_app_bound_address(is_test_environment: bool) -> String {
     env::var("APP_BOUND_ADDRESS").expect("Failed to get APP_BOUND_ADDRESS.")
 }
 
+pub fn get_rust_log() -> String {
+    env::var("RUST_LOG").expect("Failed to get RUST_LOG.")
+}
+
+pub fn get_rust_backtrace() -> String {
+    env::var("RUST_BACKTRACE").expect("Failed to get RUST_BACKTRACE.")
+}
+
+pub fn set_rust_logs(rust_log: String, rust_backtrace: String) {
+    env::set_var("RUST_LOG", rust_log);
+    env::set_var("RUST_BACKTRACE", rust_backtrace);
+}
+
 pub fn create_redis_session(
     redis_address: String,
     cookie_session_private_key: &[u8],
