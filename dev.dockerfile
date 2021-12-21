@@ -1,4 +1,4 @@
-FROM rust:1.57.0 as builder
+FROM public.ecr.aws/docker/library/rust:1.57.0 as builder
 WORKDIR /app
 RUN apt-get update -yqq \
     && apt-get install -yqq cmake g++ \
@@ -16,7 +16,7 @@ COPY ./.env ./.env
 RUN cargo build --release
 CMD ["cargo", "run", "--release"]
 
-FROM debian:buster-slim as target
+FROM public.ecr.aws/debian/debian:buster-slim as target
 RUN apt-get update && apt-get install -y libpq5 && rm -rf /var/lib/apt/lists/*
 COPY --from=builder /app/target/release/boilerplate /usr/local/bin/boilerplate
 CMD ["boilerplate"]
