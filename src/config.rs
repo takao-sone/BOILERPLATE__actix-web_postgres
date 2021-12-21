@@ -10,10 +10,10 @@ pub fn get_is_test_environment(command_line_args: Vec<String>) -> bool {
 
 pub fn get_database_url(is_test_environment: bool) -> String {
     if is_test_environment {
-        return env::var("TEST_DB_URL").expect("Failed to get TEST_DB_URL.");
+        return env::var("TEST_DATABASE_URL").expect("Failed to get TEST_DATABASE_URL.");
     }
 
-    env::var("DB_URL").expect("Failed to get DB_URL.")
+    env::var("DATABASE_URL").expect("Failed to get DATABASE_URL.")
 }
 
 pub fn get_redis_address(is_test_environment: bool) -> String {

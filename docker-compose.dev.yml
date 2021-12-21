@@ -14,7 +14,7 @@ services:
   #    networks:
   #      - d-boilerplate-network
   #    environment:
-  #      - "DB_URL=${DB_URL}"
+  #      - "DATABASE_URL=${DATABASE_URL}"
   #      - "REDIS_ADDRESS=${REDIS_ADDRESS}"
   #      - "REDIS_COOKIE_SESSION_PRIVATE_KEY=${REDIS_COOKIE_SESSION_PRIVATE_KEY}"
   #      - "FRONTEND_ORIGIN=${FRONTEND_ORIGIN}"
